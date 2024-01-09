@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Cart{% endblock %}
+{% block content %}
+
+<div class="my-form container p-5 my-5 rounded border border-warning">
+<h2 class="text-center">Cart</h2>
+            <hr>
+        {% if not request.user.is_authenticated and request.user.is_anonymous %}
+                <h5 class="alert alert-warning">
+                    Please signin first <a class="text-dark" href="{% url 'signin' %}">Login</a>
+                    <hr>
+                    dont have account? <a class="text-dark" href="{% url 'signup' %}">Signup</a>
+
+
+                </h5>
+
+
+
+
+        {% elif order %}
+            <h5>
+                Full name:<span class="my-num">
+                {{order.user.first_name|add:' '|add:order.user.last_name}}
+            </span>
+
+
+                <a href="{% url 'payment' %}" class="btn btn-outline-warning float-right m-1">
+
+                    Checkout
+
+                </a>
+                <br>
+                <br>
+                <hr>
+                Oredr Number: <span class="my-num">{{order.id}}</span>
+                with total:<span class="my-num"> {{total}}$</span>
+                for <span class="my-num">{{orderdetails.count}}</span> product
+            </h5>
+            <table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Product</th>
+      <th scope="col">Image</th>
+      <th scope="col">Quantity</th>
+
+        <th scope="col">Price</th>
+        <th scope="col">Subtotals</th>
+         <th scope="col">Control</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for line in orderdetails %}
+    <tr>
+      <th scope="row">{{forloop.counter}}</th>
+      <td>{{line.product.name}}</td>
+      <td><img src="{{line.product.photo.url}}" style="width:80px;height:80px"></td>
+        <td>
+
+             <a href="{% url  'sub_qty' orderdetails_id=line.id %}" class="btn btn-outline-danger btn-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash" viewBox="0 0 16 16">
+             <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>
+            </svg>
+             </a>
+            {{line.quantity}}
+
+
+            <a href="{% url  'add_qty' orderdetails_id=line.id %}" class="btn btn-outline-danger btn-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+            </svg>
+            </a>
+
+
+
+
+
+
+        </td>
+
+
+
+
+
+
+
+        </a>
+
+
+
+        <td>{{line.price}}$</td>
+      <td style="font-weight: bold;color:darkred">{% widthratio line.quantity 1 line.price %}$</td>
+        <td>
+
+            <a href="{% url 'remove_from_cart' orderdetails_id=line.id %}" class="btn btn-outline-danger btn-sm"> Remove</a>
+
+        </td>
+    </tr>
+    {% empty %}
+    <h5 class="alert alert-warning">
+        No details here
+    </h5>
+    {% endfor %}
+
+  </tbody>
+</table>
+        {% else %}
+            <h4 class="alert alert-warning">No Orders here
+
+                <a href="{% url 'products' %}" class="text-dark">All Products</a>
+
+
+            </h4>
+        {% endif %}
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

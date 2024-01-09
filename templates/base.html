@@ -1,0 +1,46 @@
+{% load static %}
+{% load active_link_tags %}
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/pretty-checkbox.min.css' %}">
+
+    <title>cefa \ {% block title %}{% endblock %}</title>
+</head>
+<body>
+
+{% include 'partials\_navbar.html' %}
+{% block content %}
+{% endblock %}
+{% include 'partials\_footer.html' %}
+
+<script src="{% static 'js/jquery-3.4.1.slim.min.js' %}"></script>
+<script src="{% static 'js/popper.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script>
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+        });
+        $(".year").text( (new Date).getFullYear() );
+
+    $(document).ready.(function)(){
+
+        $("#staticBackdrop").on('shown.bs.model', function(){
+
+            $(this).find('#inputQty').focus();
+
+        });
+
+    });
+
+
+
+    </script>
+
+
+
+</body>
+</html>
